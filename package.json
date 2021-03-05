@@ -9,6 +9,7 @@
   "scripts": {
     "build": "elm make src/Main.elm --optimize --output=elm.js",
     "postbuild": "minify elm.js > elm.min.js",
+    "report": "gzip -kf elm.min.js && du -h elm.min.js.gz",
     "build:debug": "elm make src/Main.elm --debug",
     "dev": "run-p serve format:watch",
     "serve": "elm reactor",
