@@ -3,4 +3,5 @@ node_modules
 pnpm-lock.yaml
 .idea
 elm.js
-elm.min.js
+*.min.js
+*.gz
