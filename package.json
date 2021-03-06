@@ -10,6 +10,7 @@
     "dev": "scripts/open-reactor & nodemon --watch package.json --exec run-p serve watch:*",
     "serve": "elm reactor",
     "build": "run-p build:scss:prod build:elm:prod",
+    "postbuild": "scripts/report-size",
     "build:scss:prod": "run-s build:scss minify:css",
     "build:scss": "sass style/Main.scss web/build/style.css",
     "minify:css": "minify web/build/style.css > web/build/style.min.css",
