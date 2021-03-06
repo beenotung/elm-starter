@@ -1,10 +1,10 @@
 {
-  "name": "css-demo",
+  "name": "elm-starter",
   "version": "1.0.0",
   "description": "",
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "BSD-2.0",
   "main": "index.js",
   "scripts": {
     "dev": "scripts/open-reactor & nodemon --watch package.json --exec run-p serve watch:*",
