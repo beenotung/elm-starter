@@ -1,0 +1,23 @@
+#!/bin/sh
+set -e
+
+cd web/build
+
+echo "== built size =="
+du -h --apparent-size \
+  elm.js \
+  style.css
+
+echo
+echo "== minified size =="
+du -h --apparent-size \
+  elm.min.js \
+  style.min.css
+
+echo
+echo "== gzip size =="
+report() {
+  printf "$1 > $(gzip -c "$1" | wc -c) bytes\n"
+}
+report elm.min.js
+report style.min.css

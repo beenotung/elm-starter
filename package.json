@@ -7,14 +7,19 @@
   "license": "ISC",
   "main": "index.js",
   "scripts": {
-    "build": "elm make src/Main.elm --optimize --output=elm.js",
-    "postbuild": "minify elm.js > elm.min.js",
-    "report": "gzip -kf elm.min.js && du -h elm.min.js.gz",
-    "build:debug": "elm make src/Main.elm --debug",
-    "dev": "run-p serve format:watch",
+    "dev": "scripts/open-reactor & nodemon --watch package.json --exec run-p serve watch:*",
     "serve": "elm reactor",
-    "format": "elm-format --yes src/",
-    "format:watch": "nodemon --watch src --ext elm --exec npm run format"
+    "build": "run-p build:scss:prod build:elm:prod",
+    "build:scss:prod": "run-s build:scss minify:css",
+    "build:scss": "sass style/Main.scss web/build/style.css",
+    "minify:css": "minify web/build/style.css > web/build/style.min.css",
+    "build:elm:prod": "scripts/elm-make-optimize src/Main.elm web/build/elm.js web/build/elm.min.js",
+    "build:elm:debug": "elm make src/Main.elm --debug --output web/build/elm.js",
+    "format": "run-p format:scss format:elm",
+    "format:scss": "prettier --write \"style/**/*.scss\"",
+    "format:elm": "elm-format --yes src/",
+    "watch:scss": "nodemon --watch style --ext scss --exec run-s format:scss build:scss",
+    "watch:elm": "nodemon --watch src --ext elm --exec run-s format:elm build:elm:debug"
   },
   "devDependencies": {
     "elm": "^0.19.1-5",
@@ -22,6 +27,9 @@
     "minify": "^7.0.1",
     "nodemon": "^2.0.7",
     "npm-run-all": "^4.1.5",
-    "uglifyjs": "^2.4.11"
+    "open-cli": "^6.0.1",
+    "prettier": "^2.2.1",
+    "sass": "^1.32.8",
+    "uglify-js": "^3.12.8"
   }
 }

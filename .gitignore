@@ -2,6 +2,5 @@ elm-stuff
 node_modules
 pnpm-lock.yaml
 .idea
-elm.js
-*.min.js
 *.gz
+web/build/

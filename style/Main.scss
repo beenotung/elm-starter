@@ -1,0 +1,19 @@
+body {
+  margin: 1em;
+}
+
+main {
+  outline: 1px solid magenta;
+  padding: 1em;
+}
+
+h2 {
+  border-bottom: 0.2em solid orange;
+  width: min-content;
+}
+
+label {
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.25em;
+}

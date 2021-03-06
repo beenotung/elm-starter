@@ -1,9 +1,9 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Attribute, Html, div, h1, input, label, table, tbody, td, text, tr)
-import Html.Attributes exposing (id, style, type_, value)
-import Html.Events exposing (onInput)
+import Html exposing (Attribute, Html, button, div, h2, input, label, node, span, text)
+import Html.Attributes exposing (style, type_, value)
+import Html.Events exposing (onClick, onInput)
 
 
 main =
@@ -18,6 +18,7 @@ type alias Model =
     { username : String
     , password : String
     , passwordAgain : String
+    , count : Int
     }
 
 
@@ -26,6 +27,7 @@ init =
     { username = ""
     , password = ""
     , passwordAgain = ""
+    , count = 0
     }
 
 
@@ -33,6 +35,8 @@ type Msg
     = SetUsername String
     | SetPassword String
     | SetPasswordAgain String
+    | Increment
+    | Decrement
 
 
 update : Msg -> Model -> Model
@@ -51,31 +55,50 @@ update msg model =
                 | passwordAgain = passwordAgain
             }
 
+        Increment ->
+            { model | count = model.count + 1 }
+
+        Decrement ->
+            { model | count = model.count - 1 }
+
 
 view : Model -> Html Msg
 view model =
-    div [ id "main", style "margin" "8px" ]
-        [ h1 [] [ text "Login" ]
-        , table []
-            [ tbody []
-                [ tr []
-                    [ td [] [ label [] [ text "username:" ] ]
-                    , td [] [ input [ type_ "text", borderStyle "black", onInput SetUsername, value model.username ] [] ]
-                    ]
-                , tr []
-                    [ td [] [ label [] [ text "password:" ] ]
-                    , td [] [ input [ type_ "password", passwordStyle model, onInput SetPassword, value model.password ] [] ]
-                    ]
-                , tr []
-                    [ td [] [ label [] [ text "password again:" ] ]
-                    , td [] [ input [ type_ "password", passwordStyle model, onInput SetPasswordAgain, value model.passwordAgain ] [] ]
-                    ]
-                ]
-            ]
+    node "main" [] (counter model ++ loginForm model)
+
+
+counter : Model -> List (Html Msg)
+counter model =
+    [ h2 [] [ text "Counter" ]
+    , div
+        [ style "display" "flex"
+        , style "align-items" "center"
+        , style "text-align" "center"
+        , style "margin" "0.5em"
         ]
+        [ button [ onClick Decrement ] [ text "-" ]
+        , span
+            [ style "min-width" "1em"
+            , style "padding" "0.5em"
+            ]
+            [ text (String.fromInt model.count) ]
+        , button [ onClick Increment ] [ text "+" ]
+        ]
+    ]
 
 
-borderStyle : String -> Attribute msg
+loginForm : Model -> List (Html Msg)
+loginForm model =
+    [ h2 [] [ text "Login" ]
+    , label [] [ text "username:" ]
+    , input [ type_ "text", borderStyle "black", onInput SetUsername, value model.username ] []
+    , label [] [ text "password:" ]
+    , input [ type_ "password", passwordStyle model, onInput SetPassword, value model.password ] []
+    , label [] [ text "password again:" ]
+    , input [ type_ "password", passwordStyle model, onInput SetPasswordAgain, value model.passwordAgain ] []
+    ]
+
+
 borderStyle color =
     style "border" ("2px solid " ++ color)
 
